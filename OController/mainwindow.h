@@ -47,7 +47,9 @@ private slots:
 
     void Paint_Data();
 
-    //void Update_Time_Text();
+    void on_WLConnectButton_clicked();
+
+    void on_WLDisconnectButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -62,7 +64,7 @@ private:
     QValueAxis *AxisYV;        //实时流速坐标
     QSplineSeries *sSeriesV;
 
-    QDateTime curTime;
+    //QDateTime curTime;
     QString strTime;
 };
 #endif // MAINWINDOW_H

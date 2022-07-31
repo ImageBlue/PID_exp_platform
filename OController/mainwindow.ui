@@ -541,6 +541,13 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="WLDisconnectButton">
+          <property name="text">
+           <string>断开连接</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </widget>

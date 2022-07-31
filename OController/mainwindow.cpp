@@ -18,6 +18,7 @@ float fParaI = 1.0;
 float fParaD = 1.0;
 int iParaV = 0;                      //初始流速
 bool bSerialFlag = false;
+bool bWirelessFlag = false;
 int iAxisT = 0;
 int iVelo;
 
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->VlineEdit->setText("0");
 
     ui->CloseSerialButton->setEnabled(false);
+    ui->WLDisconnectButton->setEnabled(false);
 
     //绘图区控件
     //时间轴
@@ -144,12 +146,36 @@ void MainWindow::on_SetNewButton_clicked()
         fParaP = fTempP;
         fParaI = fTempI;
         fParaD = fTempD;
-        qDebug() << "P:" << fParaP << " I:" << fParaI << " D:" << fParaD;
+        //qDebug() << "P:" << fParaP << " I:" << fParaI << " D:" << fParaD;
         //TODO:串口发送参数
+        qstrP = QString::number(fParaP, 'f', 1);
+        qstrI = QString::number(fParaI, 'f', 1);
+        qstrD = QString::number(fParaD, 'f', 1);
+        //qDebug() << qstrP << qstrI << qstrD;
+        QString qstrSend = "PIDP P:";
+        qstrSend.append(qstrP);
+        qstrSend.append(" I:");
+        qstrSend.append(qstrI);
+        qstrSend.append(" D:");
+        qstrSend.append(qstrD);
+        qDebug() << qstrSend.toLatin1();
+
+        if(bSerialFlag == true)
+        {
+            SerialPort->write(qstrSend.toLatin1());
+        }
+        else if(bWirelessFlag == true)
+        {
+            //TODO: 无线数据发送
+        }
+        else
+        {
+            QMessageBox::information(this,tr("写入失败"),tr("串口与无线均未连接到下位机！"),QMessageBox::Ok);
+        }
     }
     else
     {
-        qDebug() << "Unable to set PID: Invalid Parameter(s)!";
+        QMessageBox::information(this,tr("写入失败"),tr("PID参数非法！"),QMessageBox::Ok);
     }
 }
 
@@ -166,12 +192,28 @@ void MainWindow::on_VNewButton_clicked()
     if(iTempV >= 0)                       //数据合法，更新参数
     {
         iParaV = iTempV;
-        qDebug() << "Velocity:" << iParaV;
+        //qDebug() << "Velocity:" << iParaV;
         //TODO:串口发送参数
+        QString qstrSend = "VELO ";
+        qstrSend.append(qstrV);
+        qDebug() << qstrSend.toLatin1();
+
+        if(bSerialFlag == true)
+        {
+            SerialPort->write(qstrSend.toLatin1());
+        }
+        else if(bWirelessFlag == true)
+        {
+            //TODO: 无线数据发送
+        }
+        else
+        {
+            QMessageBox::information(this,tr("写入失败"),tr("串口与无线均未连接到下位机！"),QMessageBox::Ok);
+        }
     }
     else
     {
-        qDebug() << "Unable to set V: Invalid Parameter!";
+        QMessageBox::information(this,tr("写入失败"),tr("速度数值非法！"),QMessageBox::Ok);
     }
 }
 
@@ -254,6 +296,7 @@ void MainWindow::on_ConnectSerialButton_clicked()
         SerialPort->setFlowControl(QSerialPort::NoFlowControl);         //设置流控制
 
         bSerialFlag = true;
+        bWirelessFlag = false;
     }
 
     connect(SerialPort, &QSerialPort::readyRead, this, [=]()
@@ -308,6 +351,15 @@ void MainWindow::on_ClearButton_clicked()
 
 void MainWindow::Paint_Data()
 {
+    /* 已知问题：串口无法双工通信
+     * TODO: 接收数据另开线程
+     *
+     *
+     *
+     *
+     *
+     *
+     */
     QByteArray baStat, baVelo;
     if(bSerialFlag == true)
     {
@@ -329,3 +381,22 @@ void MainWindow::Paint_Data()
     }
     baBuffer.clear();
 }
+
+void MainWindow::on_WLConnectButton_clicked()
+{
+    //TODO: 无线连接
+    bSerialFlag = false;
+    bWirelessFlag = true;
+    ui->WLConnectButton->setEnabled(false);
+    ui->WLDisconnectButton->setEnabled(true);
+}
+
+
+void MainWindow::on_WLDisconnectButton_clicked()
+{
+    //TODO: 断开无线连接
+    bWirelessFlag = false;
+    ui->WLConnectButton->setEnabled(true);
+    ui->WLDisconnectButton->setEnabled(false);
+}
+
