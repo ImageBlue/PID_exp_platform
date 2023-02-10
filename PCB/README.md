@@ -3,7 +3,7 @@
 使用立创EDA设计  
 
 *立创eda打开方式
-解压嘉立创工程文件，里面有原理图与PCB的.json文件
+解压嘉立创工程文件，里面有原理图与PCB的.json文件  
 打开编辑器，通过：顶部菜单 - 文件 - 打开 - 立创EDA... ，选择 json 文件打开在编辑器，你可以保存文档进工程里面。
 
 *进度   
@@ -11,9 +11,9 @@
 
 *更新日志  
 2023/2/10  
-上传文件  嘉立创工程文件：bjut_v2_20230210,bjut_v2_20230210  制板文件：Gerber_bjuts_v2,Gerber_PCB_lcd_tr
-bjut_v2：board_shield ，实现uno、esp、yf-s201、推进器等模块连接，注意5V供电
-lcd_tr：lcd_shield，实现LCD-1602连接，与board_shield的lcd排母对应，lcd的VL与可变电阻相连
+上传文件  嘉立创工程文件：bjut_v2_20230210,bjut_v2_20230210  制板文件：Gerber_bjuts_v2,Gerber_PCB_lcd_tr  
+bjut_v2：board_shield ，实现uno、esp、yf-s201、推进器等模块连接，注意5V供电  
+lcd_tr：lcd_shield，实现LCD-1602连接，与board_shield的lcd排母对应，lcd的VL与可变电阻相连  
 
 *BOM清单
 bjuts_v2：
