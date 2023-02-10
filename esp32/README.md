@@ -8,7 +8,7 @@
 
 *更新日志  
 2023/2/10  
-上传文件  核心代码：esp32_pro  硬件/软件串口模块：usart  软串口SoftwareSerial库：SoftwareSerial.h/.cpp
+上传文件  核心代码：esp32_pro  硬件/软件串口模块：usart  软串口SoftwareSerial库：SoftwareSerial.h/.cpp  
 完成与UNO的软串口连接通讯，可以接收并处理UNO发送的原始流速数据，真实流速值精确到0.01  
 完成硬件串口通讯，此处用的是XCOM串口助手，可以进行发送实时流速值与接收设定的目标流速  
 ！！！！！注意：流速值指令格式 VELO int ，此处int为至多五位的整形，该值为实时流速值×100后的值，上位机接收时注意处理  
