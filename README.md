@@ -11,4 +11,4 @@ OController：上位机
   主要功能：控制推进器、响应上位机发来的请求  
 下位机主要由外壳、shield、Arduino UNO、ESP32、各模块组成  
 shield连接各个模块，外壳则进行保护包装  
-下位机详见UNO、ESP、shell、PCB文件夹
+下位机详见uno、esp32、shell、PCB文件夹
