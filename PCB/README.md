@@ -15,7 +15,7 @@
 bjut_v2：board_shield ，实现uno、esp、yf-s201、推进器等模块连接，注意5V供电  
 lcd_tr：lcd_shield，实现LCD-1602连接，与board_shield的lcd排母对应，lcd的VL与可变电阻相连  
 
-*BOM清单
+*BOM清单  
 bjuts_v2：
 
 |      | Name                  | Designator | Footprint              | Quantity |
