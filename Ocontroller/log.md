@@ -4,7 +4,7 @@
 完全完成了MQTT功能
 上位机已经大致完成
 
-感谢https://github.com/DawningW 的帮助
+感谢[*Chen Wu-DawningW*](https://github.com/DawningW) 的帮助
 
 2023/2/11
 实现了模糊PID的开关功能
