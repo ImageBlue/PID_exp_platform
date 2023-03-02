@@ -14,7 +14,7 @@ OController是大创项目的上位机，由Qt编写，如您所见，目前已�
 
 注：上位机X轴步长、Y轴上下限和读取的时间间隔仅作为测试使用，未对下位机实际格式进行完全适配
 
-在本地编译源代码需要自行下载并编译qtmqtt库：https://github.com/qt/qtmqtt
+在本地编译源代码需要自行下载并编译QT的qtmqtt库：https://github.com/qt/qtmqtt
 
 ## 通信格式：
 
