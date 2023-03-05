@@ -8,7 +8,7 @@ AsyncMQTT::AsyncMQTT(QObject *parent):QObject(parent)
     isFirst = false;
 
     //使用多线程读取串口，保证串口可以同时收发数据
-//    this->moveToThread(MThread);
+    this->moveToThread(MThread);
     MClient->moveToThread(MThread);
 
     MThread->start();

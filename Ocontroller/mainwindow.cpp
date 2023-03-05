@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
     AxisYV->setTitleText(tr("流速"));                                  // y轴显示标题
     QFont FontYL_T("Times",12,2,false);                                //设置YL轴字体样式
     AxisYV->setTitleFont(FontYL_T);
-    AxisYV->setRange(0, 100);                                          // 范围
+    AxisYV->setRange(0, 600);                                          // 范围
     AxisYV->setTickCount(11);                                         // 轴上点的个数
     QFont FontYL("Times",10,2,false);                                  //设置YL轴字体样式
     AxisYV->setLabelsFont(FontYL);
@@ -343,6 +343,16 @@ void MainWindow::Paint_Data()
             }
             chartView->chart()->setTitle(tr("流速-时间 图，实时流速：")+QString::number(dVelo, 'f', 2));
         }
+        else if(baStat == "CALL")
+        {
+            qstrSend = "ANSW";
+
+            if(bWirelessFlag == false && bSerialFlag == true)  //串口回复
+            {
+                emit Send_to_SerialPort(qstrSend);
+                qDebug() << "SerialPort Answer";
+            }
+        }
     }
     baBuffer.clear();
 }
@@ -365,7 +375,6 @@ void MainWindow::on_WLConnectButton_clicked()
         bWirelessFlag = true;
     }
 
-    //TODO: 调试
     if(bWirelessFlag == true)
     {
         connect(AMqtt, &AsyncMQTT::Rec_Data, this, &MainWindow::MQTT_Receive, Qt::QueuedConnection);
@@ -410,24 +419,68 @@ void MainWindow::MQTT_Receive(QByteArray buffer)
 
 void MainWindow::on_ManuRButton_clicked()
 {
-    isManu = true;
-    ui->SetNewButton->setEnabled(isManu);
+    QString qstrP, qstrI, qstrD;          //读取LineEdit中的字符串
+    qstrP.clear();
+    qstrI.clear();
+    qstrD.clear();
 
-    qstrSend = "MANU";
+    qstrP = ui->PlineEdit->text();
+    qstrI = ui->IlineEdit->text();
+    qstrD = ui->DlineEdit->text();
 
-    if(bWirelessFlag == false && bSerialFlag == true)  //串口发送
+    float fTempP, fTempI, fTempD;         //字符串转float（暂存，等待合法性判断）
+    fTempP = qstrP.toFloat();
+    fTempI = qstrI.toFloat();
+    fTempD = qstrD.toFloat();
+
+    int iTempP, iTempI, iTempD;
+
+    iTempP = fTempP*10;
+    iTempI = fTempI*10;
+    iTempD = fTempD*10;
+
+    if(iTempP >= 0 && iTempI >= 0 && iTempD >= 0)  //数据合法，更新参数
     {
-        emit Send_to_SerialPort(qstrSend);
-        qDebug() << "SerialPort MANU";
-    }
-    else if(bSerialFlag == false && bWirelessFlag == true)    //MQTT发送
-    {
-        emit Send_to_MQTT(qstrSend);
-        qDebug() << "MQTT MANU";
+        fParaP = fTempP;
+        fParaI = fTempI;
+        fParaD = fTempD;
+        //qDebug() << "P:" << fParaP << " I:" << fParaI << " D:" << fParaD;
+        //TODO:串口发送参数
+        qstrP = QString::number(iTempP);
+        qstrI = QString::number(iTempI);
+        qstrD = QString::number(iTempD);
+        //qDebug() << qstrP << qstrI << qstrD;
+        qstrSend = "PID P:";
+        qstrSend.append(qstrP);
+        qstrSend.append(" I:");
+        qstrSend.append(qstrI);
+        qstrSend.append(" D:");
+        qstrSend.append(qstrD);
+
+        if(bWirelessFlag == false && bSerialFlag == true)  //串口发送
+        {
+            emit Send_to_SerialPort(qstrSend);
+            qDebug() << "SerialPort MANU";
+        }
+        else if(bSerialFlag == false && bWirelessFlag == true)    //MQTT发送
+        {
+            emit Send_to_MQTT(qstrSend);
+            qDebug() << "MQTT MANU";
+        }
+        else
+        {
+            qDebug() << "No Connection";
+        }
+
+        isManu = true;
+        ui->SetNewButton->setEnabled(isManu);
     }
     else
     {
-        qDebug() << "No Connection";
+        isManu = false;
+        ui->ManuRButton->setChecked(false);
+        ui->AutoRButton->setChecked(true);
+        QMessageBox::information(this,tr("写入失败"),tr("PID参数非法！"),QMessageBox::Ok);
     }
 }
 
