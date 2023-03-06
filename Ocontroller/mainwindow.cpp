@@ -158,6 +158,7 @@ void MainWindow::on_SetNewButton_clicked()
         qstrI = QString::number(iTempI);
         qstrD = QString::number(iTempD);
         //qDebug() << qstrP << qstrI << qstrD;
+        qstrSend.clear();
         qstrSend = "PID P:";
         qstrSend.append(qstrP);
         qstrSend.append(" I:");
@@ -201,6 +202,7 @@ void MainWindow::on_VNewButton_clicked()
         iParaV = iTempV;
         //qDebug() << "Velocity:" << iParaV;
         //TODO:串口发送参数
+        qstrSend.clear();
         qstrSend = "VELO ";
         qstrSend.append(qstrV);
         //qDebug() << qstrSend.toLatin1();
@@ -345,6 +347,7 @@ void MainWindow::Paint_Data()
         }
         else if(baStat == "CALL")
         {
+            qstrSend.clear();
             qstrSend = "ANSW";
 
             if(bWirelessFlag == false && bSerialFlag == true)  //串口回复
@@ -450,6 +453,7 @@ void MainWindow::on_ManuRButton_clicked()
         qstrI = QString::number(iTempI);
         qstrD = QString::number(iTempD);
         //qDebug() << qstrP << qstrI << qstrD;
+        qstrSend.clear();
         qstrSend = "PID P:";
         qstrSend.append(qstrP);
         qstrSend.append(" I:");
@@ -490,6 +494,7 @@ void MainWindow::on_AutoRButton_clicked()
     isManu = false;
     ui->SetNewButton->setEnabled(isManu);
 
+    qstrSend.clear();
     qstrSend = "AUTO";
 
     if(bWirelessFlag == false && bSerialFlag == true)  //串口发送
