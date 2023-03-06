@@ -10,7 +10,7 @@ A PID experiment platform based on open-sourced hardware.
 
 主要功能：显示实时流速、与下位机有线或无线连接、对下位机PID参数和目标流速的设置
 
-上位机的可运行程序已上传至项目的release，提供Windows版和QingchenW第三方打包的MacOS版
+上位机的可运行程序已上传至项目的release，提供Windows版和DawningW第三方打包的MacOS版
 
 ### 下位机：
 
