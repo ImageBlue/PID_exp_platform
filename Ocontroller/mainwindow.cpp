@@ -73,10 +73,10 @@ MainWindow::MainWindow(QWidget *parent)
     AxisXT->setLabelsFont(FontX);
 
     //流速轴
-    AxisYV->setTitleText(tr("流速"));                                  // y轴显示标题
+    AxisYV->setTitleText(tr("角度/°"));                                  // y轴显示标题
     QFont FontYL_T("Times",12,2,false);                                //设置YL轴字体样式
     AxisYV->setTitleFont(FontYL_T);
-    AxisYV->setRange(0, 600);                                          // 范围
+    AxisYV->setRange(0, 50);                                          // 范围
     AxisYV->setTickCount(11);                                         // 轴上点的个数
     QFont FontYL("Times",10,2,false);                                  //设置YL轴字体样式
     AxisYV->setLabelsFont(FontYL);
@@ -87,7 +87,7 @@ MainWindow::MainWindow(QWidget *parent)
     chart->setAnimationOptions(QChart::SeriesAnimations);              // 动画方式
 
     // 图表视图
-    chartView->chart()->setTitle(tr("流速-时间 图，实时流速：NULL"));       // 设置标题
+    chartView->chart()->setTitle(tr("角度-时间 图，实时角度：NULL"));       // 设置标题
     chartView->setRenderHint(QPainter::Antialiasing);                  // 反锯齿绘制
     chartView->chart()->addSeries(sSeriesV);                           // 添加线段
     chartView->chart()->setTheme(QChart::ChartThemeHighContrast);      // 设置主题
@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
     sSeriesV->setPen(QPen(Qt::blue, 2, Qt::SolidLine));                 // 设置线段pen
     sSeriesV->attachAxis(AxisXT);                                      // 线段依附的X轴
     sSeriesV->attachAxis(AxisYV);                                     // 线段依附的YT轴
-    sSeriesV->setName(tr("流速"));                                      // 线段名称，在图例会显示
+    sSeriesV->setName(tr("角度"));                                      // 线段名称，在图例会显示
     sSeriesV->setPointsVisible(true);
 
     // 图例
@@ -197,7 +197,7 @@ void MainWindow::on_VNewButton_clicked()
 
     int iTempV = qstrV.toInt();
 
-    if(iTempV >= 0)                       //数据合法，更新参数
+    if(iTempV >= 0 && iTempV <= 45)                       //数据合法，更新参数
     {
         iParaV = iTempV;
         //qDebug() << "Velocity:" << iParaV;
@@ -222,7 +222,7 @@ void MainWindow::on_VNewButton_clicked()
     }
     else
     {
-        QMessageBox::information(this,tr("写入失败"),tr("速度数值非法！"),QMessageBox::Ok);
+        QMessageBox::information(this,tr("写入失败"),tr("角度数值非法！"),QMessageBox::Ok);
     }
 }
 
@@ -330,7 +330,7 @@ void MainWindow::Paint_Data()
     if(bSerialFlag == true || bWirelessFlag == true)
     {
         baStat = baBuffer.mid(0,4);
-        baVelo = baBuffer.mid(5,5);
+        baVelo = baBuffer.mid(5,4);
         qDebug()<< baBuffer << baStat << baVelo;
         if(baStat == "VELO")
         {
@@ -343,7 +343,7 @@ void MainWindow::Paint_Data()
             {
                 AxisXT->setRange((iAxisT - 10)/5.0, iAxisT/5.0);
             }
-            chartView->chart()->setTitle(tr("流速-时间 图，实时流速：")+QString::number(dVelo, 'f', 2));
+            chartView->chart()->setTitle(tr("角度-时间 图，实时角度：")+QString::number(dVelo, 'f', 2));
         }
         else if(baStat == "CALL")
         {

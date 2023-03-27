@@ -61,7 +61,7 @@
        </size>
       </property>
       <property name="text">
-       <string>设置流速</string>
+       <string>设置目标角度</string>
       </property>
      </widget>
     </item>
