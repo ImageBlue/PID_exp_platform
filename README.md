@@ -8,7 +8,7 @@ A PID experiment platform based on open-sourced hardware.
 
 ### 上位机：OController
 
-主要功能：显示实时流速、与下位机有线或无线连接、对下位机PID参数和目标流速的设置
+主要功能：显示实时流速（流速以推进器产生的水流冲击挡板，使挡板产生的**偏角**为依据）、与下位机有线或无线连接、对下位机PID参数和目标流速的设置
 
 上位机的可运行程序已上传至项目的release，提供Windows版和DawningW第三方打包的MacOS版
 
